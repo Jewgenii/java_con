@@ -2,6 +2,7 @@ package sample;
 
 public class Run1 implements Runnable {
     IntHolder i;
+    public Object locker;
 
     public void setInteger(IntHolder i) {
         this.i = i;
@@ -10,7 +11,14 @@ public class Run1 implements Runnable {
     @Override
     public void run() {
         while(true){
-            System.out.println(String.format("Run 1 : %s",this.i.i++));
+            synchronized (this.locker){this.i.incInt();  }
+
+
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
